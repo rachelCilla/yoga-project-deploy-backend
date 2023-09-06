@@ -1,4 +1,5 @@
-CREATE DATABASE yoga_app;
+psql --host=db-yoga.ccz51mnvvobm.us-west-2.rds.amazonaws.com --port=5432 --username=postgres --password --dbname=postgres
+
 
 CREATE TABLE favorite_poses(
     id VARCHAR(255) PRIMARY KEY,
