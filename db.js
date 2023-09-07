@@ -1,30 +1,21 @@
-// module used in server.js
-
-// from postgres documentation
-// const { Pool } = require('pg');
-
+require("dotenv").config();
 const { Pool } = require("pg");
 
-require("dotenv").config();
+console.log("User:", process.env.db_USERNAME);
+console.log("Host:", process.env.db_HOST);
+console.log("Port:", process.env.db_DBPORT);
+console.log("Database:", process.env.db_DATABASE);
 
-// how we are going to communicate with our postgres database
-
+// For many RDS configurations, especially those publicly accessible, AWS requires or recommends the use of SSL.
 const pool = new Pool({
+  password: process.env.db_PASSWORD,
+  host: process.env.db_HOST,
+  port: process.env.db_DBPORT,
+  database: process.env.db_DATABASE,
   user: process.env.db_USERNAME,
-  password: process.env.PASSWORD,
-  host: process.env.HOST,
-  port: process.env.DBPORT,
-  database: process.env.DATABASE,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
-
-{
-  // INFO module.exports:
-  //  a module is a file that contains code that can be loaded and used in other files in a Node.js application. T
-  // the module obj is a special obj in node.js that repressents the current module
-  // in this case, the module is db.js
-  // exports property of the module obj is an obj that is used to export values from the module
-  // pool obj is assigned to the exports property of the module obj
-  //  this makes it available to other modules that require the db.js file module using require()
-}
 
 module.exports = pool;

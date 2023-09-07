@@ -1,7 +1,5 @@
-// database = yoga_app;
-//tables = users (email, hashed_password)
-//        = favorite_poses (id, user_email, pose_name, date)
-
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 const app = express();
 const { v4: uuidv4 } = require("uuid");
@@ -9,9 +7,8 @@ const pool = require("./db");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
+
 const jwt = require("jsonwebtoken");
-dotenv.config();
 
 // MIDDLEWARE
 app.use(bodyParser.json());
@@ -20,20 +17,6 @@ app.use(cors());
 
 const PORT = process.env.PORT ?? 8000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
-app.get("/get", async (req, res) => {
-  try {
-    const users = await pool.query("SELECT * FROM users");
-    res.json(users.rows);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-// user signup
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   const salt = bcrypt.genSaltSync(10);
